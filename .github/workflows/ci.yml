@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Make changes to pull request
+        run: date +%s > report.txt
       
       - name: Create Pull Request
         id: cpr
@@ -15,9 +18,11 @@ jobs:
         with:
           token: ${{ secrets.MEUSEGREDO }}
           commit-message: Update report
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           signoff: false
+          branch: main
+          delete-branch: false
           title: '[Example] Update report'
           body: |
             Update report
@@ -26,23 +31,9 @@ jobs:
             [1]: https://github.com/peter-evans/create-pull-request
           labels: |
             report
-            auto-pr
+            automated-pr
           assignees: kmaximo
           reviewers: kmaximo
-          #milestone: 1
+          milestone: 1
           draft: false
-          #branch: main
-          delete-branch: false
-
-      - name: Check output
-        run: |
-          echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
-          echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
-
-      # - name: Enable Pull Request Automerge
-      #   if: steps.cpr.outputs.pull-request-operation == 'created'
-      #   uses: peter-evans/enable-pull-request-automerge@v3
-      #   with:
-      #     token: ${{ secrets.MEUSEGREDO }}
-      #     pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-      #     merge-method: squash
+          
