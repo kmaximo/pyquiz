@@ -1,8 +1,18 @@
-* **Change description**
+## Pull Request Description
 
 > Description here
 
-* **Please check if the PR fulfills these requirements**
-- [ ] The commit message follows our guidelines
-- [ ] Tests for the changes have been added (for bug fixes / features)
-- [ ] Docs have been added / updated (for bug fixes / features)
+### Related Issues
+- Example: Ticket Number: [UNITY-1507]
+
+## Code Checklist
+- [ ] Code follows project style guidelines
+- [ ] Unit tests have been added or updated
+- [ ] Documentation has been updated
+- [ ] Code has been reviewed by at least one other developer
+- [ ] All CI/CD checks are passing
+
+## Additional Information
+- [ ] This PR introduces breaking changes
+- [ ] This PR requires database migrations
+- [ ] This PR affects performance
