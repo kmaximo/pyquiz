@@ -4,13 +4,14 @@ on:
     branches:
       - "dev"
 
-permissions:
-  pull-requests: write
-  contents: write
-
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12"]
+
     steps:
       - uses: actions/checkout@v4
 
@@ -23,8 +24,8 @@ jobs:
         with:
           token: ${{ secrets.MEUSEGREDO }}
           commit-message: Update report
-          committer: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
-          author: github-actions[bot] <github-actions[bot]@users.noreply.github.com>
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           sign-commits: true
           signoff: false
           branch: ${{ github.ref }}
