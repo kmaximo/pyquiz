@@ -16,32 +16,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Determine Label
-        id: label
-        run: |
-          # Extrai o prefixo da mensagem do commit
-          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
-          PREFIX=$(echo "$COMMIT_MESSAGE" | awk '{print $1}')
-
-          # Define a label com base no prefixo
-          case "$PREFIX" in
-            build) LABEL="build" ;;
-            chore) LABEL="chore" ;;
-            ci) LABEL="ci" ;;
-            docs) LABEL="docs" ;;
-            feat) LABEL="feature" ;;
-            fix) LABEL="bug" ;;
-            perf) LABEL="performance" ;;
-            refactor) LABEL="refactor" ;;
-            revert) LABEL="revert" ;;
-            security) LABEL="security" ;;
-            style) LABEL="style" ;;
-            test) LABEL="test" ;;
-            *) LABEL="" ;;  # Sem label
-          esac
-
-          echo "label=${LABEL}" >> $GITHUB_OUTPUT
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
@@ -74,11 +48,10 @@ jobs:
           branch: ${{ github.ref }}
           base: main
           delete-branch: false
-          title: ${{ github.event.head_commit.message }}
+          title: "Auto PR: ${{ github.event.head_commit.message }}"
           body-path: .github/pull_request_template.md
           labels: |
             automated-pr
-            ${{ steps.label.outputs.label }}
           assignees: kmaximo
           #reviewers: kmaximo
           milestone: 1
