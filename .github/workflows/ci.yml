@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - "dev"
+  pull_request:
+    branches:
+      - main
 
 jobs:
   test-and-deploy:
@@ -21,18 +24,29 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install UV package manager
-        run: |
-          python -m pip install --upgrade pip
-          pip install uv
+      # - name: Install UV package manager
+      #   run: |
+      #     python -m pip install --upgrade pip
+      #     pip install uv
 
       # - name: Install dependencies with UV
       #   run: |
       #     uv pip install -r requirements.txt
+      - name: Set environment
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            echo "ENV=dev" >> $GITHUB_ENV
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "ENV=prd" >> $GITHUB_ENV
+          fi
+
+      # - name: Run pre-deployment checks
+      #   run: |
+      #     uv pre-deploy
 
       # - name: Run tests with UV
       #   run: |
-      #     uv test
+      #     uv test --env=$ENV
 
       - name: Create Pull Request
         if: success()
@@ -48,7 +62,7 @@ jobs:
           branch: ${{ github.ref }}
           base: main
           delete-branch: false
-          title: "Auto PR - ${{ github.event.head_commit.message }} - ${{ github.event.pull_request.number }}"
+          title: "Auto PR "
           body-path: .github/pull_request_template.md
           labels: |
             automated-pr
