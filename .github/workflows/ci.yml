@@ -1,11 +1,11 @@
-name: 0 - Create Pull Request from dev
+name: CI/CD Pipeline using UV
 on:
   push:
     branches:
       - "dev"
 
 jobs:
-  createPullRequest:
+  test-and-deploy:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -13,29 +13,72 @@ jobs:
         python-version: ["3.12"]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Make changes to pull request
-        run: date +%s > report.txt
+      - name: Determine Label
+        id: label
+        run: |
+          # Extrai o prefixo da mensagem do commit
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          PREFIX=$(echo "$COMMIT_MESSAGE" | awk '{print $1}')
+
+          # Define a label com base no prefixo
+          case "$PREFIX" in
+            build) LABEL="build" ;;
+            chore) LABEL="chore" ;;
+            ci) LABEL="ci" ;;
+            docs) LABEL="docs" ;;
+            feat) LABEL="feature" ;;
+            fix) LABEL="bug" ;;
+            perf) LABEL="performance" ;;
+            refactor) LABEL="refactor" ;;
+            revert) LABEL="revert" ;;
+            security) LABEL="security" ;;
+            style) LABEL="style" ;;
+            test) LABEL="test" ;;
+            *) LABEL="" ;;  # Sem label
+          esac
+
+          echo "::set-output name=label::$LABEL"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install UV package manager
+        run: |
+          python -m pip install --upgrade pip
+          pip install uv
+
+      # - name: Install dependencies with UV
+      #   run: |
+      #     uv pip install -r requirements.txt
+
+      # - name: Run tests with UV
+      #   run: |
+      #     uv test
 
       - name: Create Pull Request
+        if: success()
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.MEUSEGREDO }}
           commit-message: Update report
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           sign-commits: true
           signoff: false
           branch: ${{ github.ref }}
           base: main
           delete-branch: false
-          title: "[Example] Update report"
+          title: ${{ github.event.head_commit.message }}
           body-path: .github/pull_request_template.md
           labels: |
-            report
             automated-pr
+            ${{ steps.label.outputs.label }}
           assignees: kmaximo
           #reviewers: kmaximo
           milestone: 1
