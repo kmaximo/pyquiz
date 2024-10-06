@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - "dev"
-permissions:
-  pull-requests: write
-  contents: write
 
 jobs:
   dev-test-and-deploy:
@@ -62,7 +59,7 @@ jobs:
           author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           sign-commits: true
           signoff: false
-          branch: ${{ githaub.ref }}
+          branch: dev
           base: main
           delete-branch: false
           title: "Auto PR "
