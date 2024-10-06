@@ -48,7 +48,7 @@ jobs:
           branch: ${{ github.ref }}
           base: main
           delete-branch: false
-          title: "Auto PR ${{ github.event.pull_request.number }} "
+          title: "Auto PR: ${{ github.event.head_commit.message }}"
           body-path: .github/pull_request_template.md
           labels: |
             automated-pr
