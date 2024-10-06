@@ -45,6 +45,9 @@ jobs:
     needs: [dev-test-and-deploy]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Create Pull Request
         if: success()
         id: cpr
