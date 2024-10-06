@@ -1,4 +1,4 @@
-name: 0 - Create Pull Request from dev
+name: CI/CD Pipeline using UV
 on:
   push:
     branches:
@@ -13,19 +13,39 @@ jobs:
         python-version: ["3.12"]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Make changes to pull request
         run: date +%s > report.txt
 
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install UV package manager
+        run: |
+          python -m pip install --upgrade pip
+          pip install uv
+
+      - name: Install dependencies with UV
+        run: |
+          uv install
+
+      - name: Run tests with UV
+        run: |
+          uv test
+
       - name: Create Pull Request
+        if: success()
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.MEUSEGREDO }}
           commit-message: Update report
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           sign-commits: true
           signoff: false
           branch: ${{ github.ref }}
