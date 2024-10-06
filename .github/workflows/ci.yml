@@ -4,6 +4,10 @@ on:
     branches:
       - "dev"
 
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
@@ -22,7 +26,7 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.MEUSEGREDO }}
+          #token: ${{ secrets.MEUSEGREDO }}
           commit-message: Update report
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
