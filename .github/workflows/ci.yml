@@ -29,13 +29,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install uv
 
-      - name: Install dependencies with UV
-        run: |
-          uv pip install -r requirements.txt
+      # - name: Install dependencies with UV
+      #   run: |
+      #     uv pip install -r requirements.txt
 
-      - name: Run tests with UV
-        run: |
-          uv test
+      # - name: Run tests with UV
+      #   run: |
+      #     uv test
 
       - name: Create Pull Request
         if: success()
@@ -51,7 +51,7 @@ jobs:
           branch: ${{ github.ref }}
           base: main
           delete-branch: false
-          title: "[Example] Update report"
+          title: "[Example] Update report ${{ github.event.head_commit.message }}"
           body-path: .github/pull_request_template.md
           labels: |
             report

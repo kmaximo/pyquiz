@@ -1,0 +1,4 @@
+tasks:
+  test:
+    description: "Run the test suite"
+    command: "pytest"
