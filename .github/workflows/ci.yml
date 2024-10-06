@@ -40,8 +40,7 @@ jobs:
             *) LABEL="" ;;  # Sem label
           esac
 
-          echo "::set-output name=label::$LABEL"
-          echo "name=label" >> $GITHUB_OUTPUT
+          echo "label=${LABEL}" >> $GITHUB_OUTPUT
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
