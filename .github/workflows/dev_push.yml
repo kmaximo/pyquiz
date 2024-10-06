@@ -1,14 +1,11 @@
-name: CI/CD Pipeline using UV
+name: Dev Push CI/CD Pipeline using UV
 on:
   push:
     branches:
       - "dev"
-  # pull_request:
-  #   branches:
-  #     - main
 
 jobs:
-  test-and-deploy:
+  dev-test-and-deploy:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -34,11 +31,7 @@ jobs:
       #     uv pip install -r requirements.txt
       - name: Set environment
         run: |
-          if [ "${{ github.event_name }}" == "push" ]; then
-            echo "ENV=dev" >> $GITHUB_ENV
-          elif [ "${{ github.event_name }}" == "pull_request" ]; then
-            echo "ENV=prd" >> $GITHUB_ENV
-          fi
+          echo "ENV=dev" >> $GITHUB_ENV
 
       # - name: Run pre-deployment checks
       #   run: |
@@ -48,6 +41,10 @@ jobs:
       #   run: |
       #     uv test --env=$ENV
 
+  createPullRequest:
+    needs: [dev-test-and-deploy]
+    runs-on: ubuntu-latest
+    steps:
       - name: Create Pull Request
         if: success()
         id: cpr
