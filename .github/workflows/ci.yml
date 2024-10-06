@@ -76,9 +76,7 @@ jobs:
           delete-branch: false
           title: ${{ github.event.head_commit.message }}
           body-path: .github/pull_request_template.md
-          labels: |
-            automated-pr
-            ${{ steps.label.outputs.label }}
+          labels: ${{ steps.label.outputs.label }}
           assignees: kmaximo
           #reviewers: kmaximo
           milestone: 1
