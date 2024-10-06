@@ -25,19 +25,19 @@ jobs:
 
           # Define a label com base no prefixo
           case "$PREFIX" in
-            build LABEL="build" ;;
-            chore LABEL="chore" ;;
-            ci LABEL="ci" ;;
-            docs LABEL="docs" ;;
-            feat LABEL="feature" ;;
-            fix LABEL="bug" ;;
-            perf LABEL="performance" ;;
-            refactor LABEL="refactor" ;;
-            revert LABEL="revert" ;;
-            security LABEL="security" ;;
-            style LABEL="style" ;;
-            test LABEL="test" ;;
-            * LABEL="" ;;  # Sem label
+            build) LABEL="build" ;;
+            chore) LABEL="chore" ;;
+            ci) LABEL="ci" ;;
+            docs) LABEL="docs" ;;
+            feat) LABEL="feature" ;;
+            fix) LABEL="bug" ;;
+            perf) LABEL="performance" ;;
+            refactor) LABEL="refactor" ;;
+            revert) LABEL="revert" ;;
+            security) LABEL="security" ;;
+            style) LABEL="style" ;;
+            test) LABEL="test" ;;
+            *) LABEL="" ;;  # Sem label
           esac
 
           echo "::set-output name=label::$LABEL"
