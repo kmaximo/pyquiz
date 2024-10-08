@@ -1,8 +1,8 @@
-name: Pull Request on Main CI
+name: [Main] Build & Deploy
 on:
   pull_request:
-    branches:
-      - main
+    types: closed
+    branches: main
 
 jobs:
   prd-test-and-deploy:

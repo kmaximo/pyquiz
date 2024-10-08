@@ -1,4 +1,4 @@
-name: Dev Push CI/CD Pipeline using UV
+name: [DEV] Build & Deploy
 on:
   push:
     branches:
@@ -63,7 +63,7 @@ jobs:
           branch: ${{ github.ref }}
           base: main
           delete-branch: false
-          title: "Auto PR "
+          title: "PR criado automaticamente. "
           body-path: .github/pull_request_template.md
           labels: |
             automated-pr
