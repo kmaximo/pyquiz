@@ -1,13 +1,13 @@
-name: Dev Push CI/CD Pipeline using UV
+name: DEV - Build & Deploy
 on:
   push:
     branches:
       - "dev"
 
 jobs:
-  dev-test-and-deploy:
+  test-and-deploy:
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: dev
     strategy:
       fail-fast: false
@@ -44,7 +44,7 @@ jobs:
       #     uv test --env=$ENV
 
   createPullRequest:
-    needs: [dev-test-and-deploy]
+    needs: [test-and-deploy]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -63,7 +63,7 @@ jobs:
           branch: ${{ github.ref }}
           base: main
           delete-branch: false
-          title: "Auto PR "
+          title: "PR criado automaticamente. "
           body-path: .github/pull_request_template.md
           labels: |
             automated-pr
