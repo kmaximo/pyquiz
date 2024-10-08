@@ -44,7 +44,7 @@ jobs:
       #     uv test --env=$ENV
 
   createPullRequest:
-    needs: [dev-test-and-deploy]
+    needs: [test-and-deploy]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
