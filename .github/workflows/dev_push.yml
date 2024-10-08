@@ -1,13 +1,13 @@
-name: [DEV] Build & Deploy
+name: DEV - Build & Deploy
 on:
   push:
     branches:
       - "dev"
 
 jobs:
-  dev-test-and-deploy:
+  test-and-deploy:
     runs-on: ubuntu-latest
-    environment: 
+    environment:
       name: dev
     strategy:
       fail-fast: false

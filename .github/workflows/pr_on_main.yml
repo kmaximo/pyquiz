@@ -1,11 +1,11 @@
-name: [Main] Build & Deploy
+name: Main - Build & Deploy
 on:
   pull_request:
     types: closed
     branches: main
 
 jobs:
-  prd-test-and-deploy:
+  test-and-deploy:
     runs-on: ubuntu-latest
     environment:
       name: prd
