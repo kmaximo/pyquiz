@@ -57,6 +57,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.MEUSEGREDO }}
         with:
-          tag_name: "v${GITHUB_SHA::8}"
-          release_name: "v${GITHUB_SHA::8}"
+          tag_name: "release-${GITHUB_SHA::8}"
+          release_name: "Release ${GITHUB_SHA::8}"
           body: "Automated release from GitHub Actions"
