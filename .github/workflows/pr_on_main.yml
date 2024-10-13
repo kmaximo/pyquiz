@@ -44,19 +44,19 @@ jobs:
       #   run: |
       #     uv test --env=$ENV
 
-  createRelease:
-    needs: [test-and-deploy]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  # createRelease:
+  #   needs: [test-and-deploy]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      - name: Create release
-        if: github.ref == 'refs/heads/main' && github.event.pull_request.state == 'closed'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.MEUSEGREDO }}
-        with:
-          tag_name: "release-${GITHUB_SHA::8}"
-          release_name: "Release ${GITHUB_SHA::8}"
-          body: "Automated release from GitHub Actions"
+  #     - name: Create release
+  #       if: github.ref == 'refs/heads/main' && github.event.pull_request.state == 'closed'
+  #       uses: actions/create-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.MEUSEGREDO }}
+  #       with:
+  #         tag_name: "release-${GITHUB_SHA::8}"
+  #         release_name: "Release ${GITHUB_SHA::8}"
+  #         body: "Automated release from GitHub Actions"
