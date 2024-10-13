@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: prd
+      url: "http://prd.myapp.com"
     strategy:
       fail-fast: false
       matrix:
